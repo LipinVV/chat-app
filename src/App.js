@@ -1,9 +1,8 @@
 import './App.css';
 import {useQuery} from '@apollo/client';
 import React, {useEffect, useState} from "react";
-import {UserManager} from "./components/UserManager";
 import {GET_USERS_QUERY} from "./graphql/Queries";
-import {Chat} from "./Chat";
+import {Chat} from "./components/Chat/Chat";
 
 function App() {
   const [users, setUsers] = useState([]);

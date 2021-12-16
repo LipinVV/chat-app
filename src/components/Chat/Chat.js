@@ -1,5 +1,5 @@
 import {useRef, useState} from "react";
-
+import './chat.css';
 
 export const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -10,11 +10,13 @@ export const Chat = () => {
 
 
     const messageHandler = async () => {
+        const time = new Date();
         const message = {
             userName,
             message: value,
             id: Date.now(),
-            event: 'message'
+            event: 'message',
+            time: time.toLocaleString(),
         }
         try {
             socket.current.send(JSON.stringify(message))
@@ -29,12 +31,14 @@ export const Chat = () => {
 
         socket.current.onopen = () => {
             setConnection(true);
-            console.log('opened')
+
+            const time = new Date();
 
             const message = {
                 event: 'connection',
                 userName,
-                id: Date.now()
+                id: Date.now(),
+                time: time.toLocaleString(),
             }
             socket.current.send(JSON.stringify(message))
         }
@@ -49,6 +53,10 @@ export const Chat = () => {
             console.log('error')
         }
     }
+
+    // const disconnect = () => {
+    //     setConnection(false)
+    // }
 
     if (!connection) {
         return (
@@ -67,26 +75,27 @@ export const Chat = () => {
     return (
         <div>
             <h4>Chat log</h4>
-            <div>
-                <input value={value} type='text' onChange={(e) => setValue(e.target.value)}/>
-                <button type='button' onClick={messageHandler}>Send message</button>
-            </div>
-            <div>
+            <div className='chat__chat-zone'>
                 <h4 style={{color: 'red'}}>Chat zone:</h4>
-                {messages.map(msg=> {
-                    console.log(msg.event)
+                {messages.map(msg => {
                     return (
-                        <div key={msg.id}>
-                            <div>{msg.event === 'connection'
-                                ? <div style={{color: 'green'}}>user: {msg.userName} is connected to Chat zone!</div>
-                                : <div style={{display: 'grid'}}>
-                                    <span>{msg.userName}<span>: {msg.message}</span></span>
-                                </div>
-                            }</div>
+                        <div className='chat__msg' key={msg.id}>
+                            <div className='chat__msg' style={{display: 'block'}}>
+                                <span><span>{msg.time}</span>{msg.userName}<span>: {msg.message}</span></span>
+                            </div>
+                            {msg.event === 'connection' && <div style={{color: 'green'}}>{msg.userName} is connected to Chat zone!</div>}
                         </div>
                     )
                 })}
             </div>
+            <div className='chat__typing-zone'>
+                <input className='chat__message-input' value={value} type='text' onChange={(e) => setValue(e.target.value)}/>
+                <button type='button' onClick={messageHandler}>Send message</button>
+            </div>
+
+            {/*<div>*/}
+            {/*    <button type='button' onClick={disconnect}>Log out</button>*/}
+            {/*</div>*/}
         </div>
     )
 }
