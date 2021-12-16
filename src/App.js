@@ -3,6 +3,7 @@ import {useQuery} from '@apollo/client';
 import React, {useEffect, useState} from "react";
 import {UserManager} from "./components/UserManager";
 import {GET_USERS_QUERY} from "./graphql/Queries";
+import {Chat} from "./Chat";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -22,20 +23,21 @@ console.log(users)
 
   return (
       <div className="App">
-        <div>
-          <UserManager />
-        </div>
-        {users.map(user => {
-          return (
-              <div key={user.id}>
-                <div>
-                  <span>{user.id}</span>
-                  <span>{user.username}</span>
-                  <span>{user.email}</span>
-                </div>
-              </div>
-          )
-        })}
+          <Chat/>
+        {/*<div>*/}
+        {/*  <UserManager />*/}
+        {/*</div>*/}
+        {/*{users.map(user => {*/}
+        {/*  return (*/}
+        {/*      <div key={user.id}>*/}
+        {/*        <div>*/}
+        {/*          <span>{user.id}</span>*/}
+        {/*          <span>{user.username}</span>*/}
+        {/*          <span>{user.email}</span>*/}
+        {/*        </div>*/}
+        {/*      </div>*/}
+        {/*  )*/}
+        {/*})}*/}
       </div>
   );
 }
