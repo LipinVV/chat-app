@@ -9,7 +9,7 @@ import {
 } from "@apollo/client";
 
 const client = new ApolloClient({
-    uri: 'https://fakeql.com/graphql/9e22fbefd2fbb3410cefb41b253c19e1,
+    uri: 'https://fakeql.com/graphql/9e22fbefd2fbb3410cefb41b253c19e1',
     cache: new InMemoryCache()
 });
 
